@@ -1,15 +1,26 @@
 from typing import List
 from fastapi import FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import stripe
 
-stripe.api_key="sk_test_51HwUlaA67jZ6i4HK3X9Ddp6QtOMIVGzGEtMu4DjYMQN5W6dBWZo4ig8PhyLzr4fYMBPWDNoGSsjzgFHXQ8KD88EB00Du50yLoA"
+stripe.api_key = "sk_test_51HwUlaA67jZ6i4HK3X9Ddp6QtOMIVGzGEtMu4DjYMQN5W6dBWZo4ig8PhyLzr4fYMBPWDNoGSsjzgFHXQ8KD88EB00Du50yLoA"
 
 app = FastAPI()
 
 class DigitalPayments(BaseModel):
     application_amount_fee: float
     table_no: int
+
+# Allow CORS for all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.post("/card_pay", status_code=status.HTTP_200_OK)
 def card_pay(digital_payment: DigitalPayments):
