@@ -1,0 +1,105 @@
+[
+    {
+        "label": "stripe",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "stripe",
+        "description": "stripe",
+        "detail": "stripe",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "connected_accounts",
+        "kind": 5,
+        "importPath": "account_id",
+        "description": "account_id",
+        "peekOfCode": "connected_accounts = stripe.Account.list(limit=10)\n# Print the IDs of connected accounts\nfor account in connected_accounts:\n    print(\"Connected Account ID:\", account.id)",
+        "detail": "account_id",
+        "documentation": {}
+    },
+    {
+        "label": "DigitalPayments",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class DigitalPayments(BaseModel):\n    application_amount_fee: float\n    table_no: int\n@app.post(\"/card_pay\", status_code=status.HTTP_200_OK)\ndef card_pay(digital_payment: DigitalPayments):\n    try:\n        payment_intent = stripe.PaymentIntent.create(\n            amount=int(digital_payment.application_amount_fee * 100),  # Convert to cents\n            currency=\"eur\",  # Change currency as needed\n            payment_method_types=[\"card\"],  # Collect card details directly",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "card_pay",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def card_pay(digital_payment: DigitalPayments):\n    try:\n        payment_intent = stripe.PaymentIntent.create(\n            amount=int(digital_payment.application_amount_fee * 100),  # Convert to cents\n            currency=\"eur\",  # Change currency as needed\n            payment_method_types=[\"card\"],  # Collect card details directly\n            description=f\"Payment for table {digital_payment.table_no}\",\n            transfer_data={\"destination\": \"acct_1L4LUOPGTC9ra4FK\"}  # Replace with your connected account ID\n        )\n        return {\"client_secret\": payment_intent.client_secret}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "apple_pay",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def apple_pay(digital_payment: DigitalPayments):\n    try:\n        payment_intent = stripe.PaymentIntent.create(\n            amount=int(digital_payment.amount * 100),  # Amount in cents\n            currency=\"eur\",  # Change currency as needed\n            payment_method_types=[\"card_present\"],\n            application_fee_amount=int(digital_payment.application_amount_fee * 100),  # Convert to cents\n            transfer_data={\"destination\": \"acct_1L4LUOPGTC9ra4FK\"}, #account id is fake\n        )\n        return {\"payment_intent_id\": payment_intent.id}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "google_pay",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def google_pay(digital_payment: DigitalPayments):\n    try:\n        payment_intent = stripe.PaymentIntent.create(\n            amount=int(digital_payment.amount * 100),  # Amount in cents\n            currency=\"eur\",  # Change currency as needed\n            payment_method_types=[\"card_present\"],\n            application_fee_amount=int(digital_payment.application_amount_fee * 100),  # Convert to cents\n            transfer_data={\"destination\": \"acct_1L4LUOPGTC9ra4FK\"}, #account id is fake\n        )\n        return {\"payment_intent_id\": payment_intent.id}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = FastAPI()\nclass DigitalPayments(BaseModel):\n    application_amount_fee: float\n    table_no: int\n@app.post(\"/card_pay\", status_code=status.HTTP_200_OK)\ndef card_pay(digital_payment: DigitalPayments):\n    try:\n        payment_intent = stripe.PaymentIntent.create(\n            amount=int(digital_payment.application_amount_fee * 100),  # Convert to cents\n            currency=\"eur\",  # Change currency as needed",
+        "detail": "main",
+        "documentation": {}
+    }
+]
