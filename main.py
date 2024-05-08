@@ -9,6 +9,7 @@ app = FastAPI()
 
 class DigitalPayments(BaseModel):
     application_amount_fee: float
+    table_no: int
 
 @app.post("/card_pay", status_code=status.HTTP_200_OK)
 def card_pay(digital_payment: DigitalPayments):
